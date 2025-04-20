@@ -1,0 +1,5 @@
+SimpleCalculatorProject/
+│
+├── CalculatorFrontend.java   // GUI + input handling
+├── CalculatorBackend.java    // Calculation logic
+└── README.txt                // Optional: Description or instructions
