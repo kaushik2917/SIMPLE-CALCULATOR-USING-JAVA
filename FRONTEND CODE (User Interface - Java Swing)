@@ -1,0 +1,87 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class CalculatorFrontend extends JFrame implements ActionListener {
+    JTextField input1, input2, output;
+    JButton addBtn, subBtn, mulBtn, divBtn, clearBtn;
+    CalculatorBackend backend;
+
+    public CalculatorFrontend() {
+        setTitle("Simple Calculator - Java");
+        setSize(400, 250);
+        setLayout(new GridLayout(5, 2, 10, 10));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Initialize backend
+        backend = new CalculatorBackend();
+
+        // Initialize components
+        input1 = new JTextField();
+        input2 = new JTextField();
+        output = new JTextField();
+        output.setEditable(false);
+
+        addBtn = new JButton("Add");
+        subBtn = new JButton("Subtract");
+        mulBtn = new JButton("Multiply");
+        divBtn = new JButton("Divide");
+        clearBtn = new JButton("Clear");
+
+        // Add components to frame
+        add(new JLabel("First Number:"));
+        add(input1);
+        add(new JLabel("Second Number:"));
+        add(input2);
+        add(new JLabel("Result:"));
+        add(output);
+        add(addBtn);
+        add(subBtn);
+        add(mulBtn);
+        add(divBtn);
+        add(clearBtn);
+
+        // Add listeners
+        addBtn.addActionListener(this);
+        subBtn.addActionListener(this);
+        mulBtn.addActionListener(this);
+        divBtn.addActionListener(this);
+        clearBtn.addActionListener(this);
+
+        setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        try {
+            double num1 = Double.parseDouble(input1.getText());
+            double num2 = Double.parseDouble(input2.getText());
+
+            double res = 0;
+
+            if (e.getSource() == addBtn) {
+                res = backend.add(num1, num2);
+            } else if (e.getSource() == subBtn) {
+                res = backend.subtract(num1, num2);
+            } else if (e.getSource() == mulBtn) {
+                res = backend.multiply(num1, num2);
+            } else if (e.getSource() == divBtn) {
+                res = backend.divide(num1, num2);
+            } else if (e.getSource() == clearBtn) {
+                input1.setText("");
+                input2.setText("");
+                output.setText("");
+                return;
+            }
+
+            output.setText(String.valueOf(res));
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Please enter valid numbers!");
+        } catch (ArithmeticException ae) {
+            JOptionPane.showMessageDialog(this, ae.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        new CalculatorFrontend();
+    }
+}
